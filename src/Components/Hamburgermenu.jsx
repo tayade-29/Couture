@@ -48,7 +48,7 @@ export default function HamburgerMenu({ isAdmin = false }) {
                   </Link>
                 </li>
 
-                {isAdmin && (
+             
                   <li>
                     <Link
                       to="/add-product"
@@ -61,7 +61,7 @@ export default function HamburgerMenu({ isAdmin = false }) {
                       Add Product
                     </Link>
                   </li>
-                )}
+                
 
                 <li>
                   <Link

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../store/apiSlice';
@@ -8,8 +8,25 @@ export default function ProductsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
 
-  const itemsPerPage = 3;
+  const getItemsPerPage = () => {
+    if (typeof window === 'undefined') return 3;
+    if (window.innerWidth < 640) return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 3;
+  };
+
+  const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage());
   const totalPages = products ? Math.ceil(products.length / itemsPerPage) : 0;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(getItemsPerPage());
+      setCurrentIndex(0);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % totalPages);
@@ -44,10 +61,10 @@ export default function ProductsSection() {
   }
 
   return (
-    <section className="py-20 px-4 md:px-8" style={{ backgroundColor: '#F8F4EF' }}>
+    <section className="py-16 sm:py-20 px-4 md:px-8" style={{ backgroundColor: '#F8F4EF' }}>
       <div className="relative max-w-7xl mx-auto">
         <h2
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-center mb-16"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-center mb-12 sm:mb-16"
           style={{ color: '#5E3A6E', fontFamily: 'Katibeh' }}
         >
           Explore our Products
@@ -58,23 +75,23 @@ export default function ProductsSection() {
             {totalPages > 1 && (
               <button
                 onClick={prevSlide}
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 rounded-full transition-all hover:scale-110 hover:shadow-lg"
+                className="absolute left-0 sm:left-2 md:left-0 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-2.5 md:p-3 rounded-full transition-all hover:scale-110 hover:shadow-lg"
                 style={{ backgroundColor: '#5E3A6E' }}
                 aria-label="Previous"
               >
-                <ChevronLeft size={32} color="#F8F4EF" />
+                <ChevronLeft size={24} className="sm:w-7 sm:h-7 md:w-8 md:h-8" color="#F8F4EF" />
               </button>
             )}
 
-            <div className="px-8 md:px-24">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="px-10 sm:px-12 md:px-16 lg:px-24">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-6 md:gap-8">
                 {visibleProducts.map((product) => (
                   <div
                     key={product._id}
                     onClick={() => navigate(`/product/${product._id}`)}
-                    className="cursor-pointer group"
+                    className="cursor-pointer group mx-auto w-full max-w-sm"
                   >
-                    <div className="overflow-hidden rounded-lg mb-4 aspect-[2/3] shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <div className="overflow-hidden rounded-lg mb-3 sm:mb-4 aspect-[2/3] shadow-md hover:shadow-xl transition-shadow duration-300">
                       <img
                         src={product.imageUrl || 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=600'}
                         alt={product.name}
@@ -82,13 +99,13 @@ export default function ProductsSection() {
                       />
                     </div>
                     <h3
-                      className="text-xl md:text-2xl font-semibold mb-2 transition-colors group-hover:opacity-80"
+                      className="text-xl sm:text-xl md:text-2xl font-semibold mb-1.5 sm:mb-2 transition-colors group-hover:opacity-80"
                       style={{ color: '#4B2142', fontFamily: 'Katibeh' }}
                     >
                       {product.name || product.title}
                     </h3>
                     <p
-                      className="text-lg md:text-xl font-bold"
+                      className="text-lg sm:text-lg md:text-xl font-bold"
                       style={{ color: '#5E3A6E', fontFamily: 'Katibeh' }}
                     >
                       ₹{product.price}
@@ -101,11 +118,11 @@ export default function ProductsSection() {
             {totalPages > 1 && (
               <button
                 onClick={nextSlide}
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 md:p-3 rounded-full transition-all hover:scale-110 hover:shadow-lg"
+                className="absolute right-0 sm:right-2 md:right-0 top-1/2 -translate-y-1/2 z-10 p-2 sm:p-2.5 md:p-3 rounded-full transition-all hover:scale-110 hover:shadow-lg"
                 style={{ backgroundColor: '#5E3A6E' }}
                 aria-label="Next"
               >
-                <ChevronRight size={32} color="#F8F4EF" />
+                <ChevronRight size={24} className="sm:w-7 sm:h-7 md:w-8 md:h-8" color="#F8F4EF" />
               </button>
             )}
           </div>
