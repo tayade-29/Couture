@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetProductsQuery, useCreateOrderMutation } from "../store/apiSlice";
 
-export const ShopWithUsForm = () => {
+export default function ShopWithUsForm() {
   const { data: products = [], isLoading, error } = useGetProductsQuery();
   const [createOrder, { isLoading: orderLoading }] = useCreateOrderMutation();
-  const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth.token); // currently unused
 
   const [formData, setFormData] = useState({
     product: "",
@@ -28,13 +28,13 @@ export const ShopWithUsForm = () => {
 
     try {
       await createOrder({
-        productId: formData.product, // Match backend expectation
+        productId: formData.product,
         quantity: formData.quantity,
         message: formData.message,
         deliveryAddress: formData.deliveryAddress
       }).unwrap();
 
-      alert("Order placed successfully!");
+      alert("Your order has been placed successfully! Check your email for product updates.");
       setFormData({
         product: "",
         quantity: 1,
@@ -47,75 +47,171 @@ export const ShopWithUsForm = () => {
     }
   };
 
-  if (isLoading) return <p>Loading products...</p>;
-  if (error) return <p>Error loading products.</p>;
+  if (isLoading)
+    return (
+      <div
+        className="flex items-center justify-center min-h-[300px]"
+        style={{ backgroundColor: "#3C322B" }}
+      >
+        <p style={{ color: "#F8F4EF" }} className="text-lg">
+          Loading products...
+        </p>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div
+        className="flex items-center justify-center min-h-[300px]"
+        style={{ backgroundColor: "#3C322B" }}
+      >
+        <p style={{ color: "#8F1D2C" }} className="text-lg">
+          Error loading products.
+        </p>
+      </div>
+    );
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Shop With Us</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-
-        <div>
-          <label className="block mb-1">Product:</label>
-          <select
-            name="product"
-            value={formData.product}
-            onChange={handleChange}
-            required
-            className="border p-2 rounded w-full"
-          >
-            <option value="">Select a product</option>
-            {products.filter(p => p.quantity > 0).map((p) => (
-              <option key={p._id} value={p._id}>
-                {p.title} — ₹{p.price}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className="block mb-1">Quantity:</label>
-          <input
-            type="number"
-            name="quantity"
-            min="1"
-            value={formData.quantity}
-            onChange={handleChange}
-            required
-            className="border p-2 rounded w-full"
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1">Message:</label>
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1">Delivery Address:</label>
-          <input
-            type="text"
-            name="deliveryAddress"
-            value={formData.deliveryAddress}
-            onChange={handleChange}
-            required
-            className="border p-2 rounded w-full"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={orderLoading}
-          className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+    <section
+      className="flex flex-col items-center justify-center "
+      style={{ backgroundColor: "#F8F4F0" }}
+    >
+      <div className="  p-16 w-full max-w-100% ">
+        <h2
+          className="text-3xl font-bold text-center mb-8"
+          style={{ color: "#4B2142" }}
         >
-          {orderLoading ? "Placing Order..." : "Submit Order"}
-        </button>
-      </form>
-    </div>
+          Place Your Order
+        </h2>
+
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {/* Product */}
+            <div>
+              <label
+                className="block text-sm font-semibold mb-2"
+                style={{ color: "#3A2D35" }}
+              >
+                Product
+              </label>
+              <select
+                name="product"
+                value={formData.product}
+                onChange={handleChange}
+                required
+                className="block w-full px-4 py-3 bg-white rounded-xl focus:outline-none transition-all"
+                style={{
+                  border: "2px solid #C6A8CE",
+                  color: "#333333"
+                }}
+                onFocus={(e) => (e.target.style.borderColor = "#4B2142")}
+                onBlur={(e) => (e.target.style.borderColor = "#C6A8CE")}
+              >
+                <option value="">Select a product</option>
+                {products
+                  .filter((p) => p.quantity > 0)
+                  .map((p) => (
+                    <option key={p._id} value={p._id}>
+                      {p.title} — ₹{p.price}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            {/* Quantity */}
+            <div>
+              <label
+                className="block text-sm font-semibold mb-2"
+                style={{ color: "#3A2D35" }}
+              >
+                Quantity
+              </label>
+              <input
+                type="number"
+                name="quantity"
+                min="1"
+                value={formData.quantity}
+                onChange={handleChange}
+                required
+                className="block w-full px-4 py-3 bg-white rounded-xl focus:outline-none transition-all"
+                style={{
+                  border: "2px solid #C6A8CE",
+                  color: "#333333"
+                }}
+                onFocus={(e) => (e.target.style.borderColor = "#4B2142")}
+                onBlur={(e) => (e.target.style.borderColor = "#C6A8CE")}
+              />
+            </div>
+
+            {/* Message */}
+            <div className="md:col-span-1">
+              <label
+                className="block text-sm font-semibold mb-2"
+                style={{ color: "#3A2D35" }}
+              >
+                Message
+              </label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                rows="3"
+                placeholder="Add any special instructions..."
+                className="block w-full px-4 py-3 bg-white rounded-xl focus:outline-none transition-all resize-none"
+                style={{
+                  border: "2px solid #C6A8CE",
+                  color: "#333333"
+                }}
+                onFocus={(e) => (e.target.style.borderColor = "#4B2142")}
+                onBlur={(e) => (e.target.style.borderColor = "#C6A8CE")}
+              />
+            </div>
+
+            {/* Delivery Address */}
+            <div className="md:col-span-1">
+              <label
+                className="block text-sm font-semibold mb-2"
+                style={{ color: "#3A2D35" }}
+              >
+                Delivery Address
+              </label>
+              <textarea
+                name="deliveryAddress"
+                value={formData.deliveryAddress}
+                onChange={handleChange}
+                required
+                rows="3"
+                placeholder="Enter your complete delivery address..."
+                className="block w-full px-4 py-3 bg-white rounded-xl focus:outline-none transition-all resize-none"
+                style={{
+                  border: "2px solid #C6A8CE",
+                  color: "#333333"
+                }}
+                onFocus={(e) => (e.target.style.borderColor = "#4B2142")}
+                onBlur={(e) => (e.target.style.borderColor = "#C6A8CE")}
+              />
+            </div>
+          </div>
+
+          {/* Submit button */}
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              disabled={orderLoading}
+              className="px-12 py-4 text-white text-lg font-semibold rounded-full transition-all hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+              style={{ backgroundColor: "#8A1C2B" }}
+              onMouseEnter={(e) =>
+                !orderLoading && (e.target.style.backgroundColor = "#6B1522")
+              }
+              onMouseLeave={(e) =>
+                (e.target.style.backgroundColor = "#8A1C2B")
+              }
+            >
+              {orderLoading ? "Placing Order..." : "Submit Order"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
   );
-};
+}

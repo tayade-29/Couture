@@ -15,6 +15,7 @@ export const apiSlice = createApi({
     },
   }),
   endpoints: (builder) => ({
+    // --- Auth ---
     createUser: builder.mutation({
       query: (formData) => ({
         url: '/auth/register',
@@ -30,9 +31,10 @@ export const apiSlice = createApi({
       }),
     }),
     getProfile: builder.query({
-  query: () => "/auth/profile", // you'll need to make this route later if required
-}),
+      query: () => "/auth/profile",
+    }),
 
+    // --- Products ---
     createProduct: builder.mutation({
       query: (formData) => ({
         url: '/admin/products',
@@ -43,6 +45,11 @@ export const apiSlice = createApi({
     getProducts: builder.query({
       query: () => "/products",
     }),
+    getProductById: builder.query({   // 👈 Add this
+      query: (id) => `/products/${id}`,
+    }),
+
+    // --- Orders ---
     createOrder: builder.mutation({ 
       query: (orderData) => ({
         url: '/shop',
@@ -58,5 +65,6 @@ export const {
   useCreateUserMutation, 
   useCreateProductMutation, 
   useGetProductsQuery, 
+  useGetProductByIdQuery,   // 👈 Export hook
   useCreateOrderMutation 
 } = apiSlice;
