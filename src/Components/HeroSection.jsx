@@ -58,7 +58,8 @@ export default function HeroSection() {
   return (
     <section className="relative h-screen flex items-center overflow-hidden" style={{ backgroundColor: '#F8F4EF' }}>
       <div className="w-full h-full flex items-center justify-between">
-        <div className="flex-1 flex flex-col justify-center items-start px-6 sm:px-8 md:pl-20 lg:pl-32 xl:pl-56 z-10">
+        {/* Heading - Hidden on small screens */}
+        <div className="hidden md:flex flex-1 flex-col justify-center items-start px-6 sm:px-8 md:pl-20 lg:pl-32 xl:pl-56 z-10">
           <h1
             className="text-5xl sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl font-bold mb-2 sm:mb-4 md:mb-2 transition-all duration-500 ease-out"
             style={{
@@ -72,7 +73,7 @@ export default function HeroSection() {
           </h1>
 
           <div className="relative w-full max-w-md">
-            <div className="hidden md:flex md:flex-col md:gap-2">
+            <div className="flex flex-col gap-2">
               {subheadings.map((text, index) => (
                 <p
                   key={index}
@@ -91,37 +92,26 @@ export default function HeroSection() {
                 </p>
               ))}
             </div>
-
-            <div className="md:hidden relative min-h-[100px] flex items-center">
-              {subheadings.map((text, index) => (
-                <p
-                  key={index}
-                  className={`absolute top-1/2 -translate-y-1/2 left-0 text-base sm:text-lg transition-all duration-700 ease-in-out ${
-                    currentMobileSubheading === index && visibleSubheadings.includes(index)
-                      ? 'opacity-100'
-                      : 'opacity-0'
-                  }`}
-                  style={{
-                    color: '#5E3A6E',
-                    fontFamily: 'Katibeh',
-                    lineHeight: '1.8'
-                  }}
-                >
-                  {text}
-                </p>
-              ))}
-            </div>
           </div>
         </div>
 
-        <div className="hidden md:block h-full" style={{ width: '45%' }}>
-          <img
-            src={Model1}
-            alt="Fashion model"
-            className="w-full h-full object-cover"
-            style={{ margin: 0, padding: 0 }}
-          />
-        </div>
+        {/* Image - Responsive sizing for mobile, right aligned at 0px */}
+       {/* Image - Responsive sizing for mobile, right aligned at 0px */}
+{/* Image - Responsive sizing for mobile, right aligned at 0px */}
+{/* Image - Responsive sizing */}
+<div className="w-full md:w-[45%] h-screen absolute md:relative right-0 top-0 
+                flex items-center justify-center bg-[#F8F4EF] 
+                py-[10px] md:py-0">
+ <img
+  src={Model1}
+  alt="Fashion model"
+  className="w-full h-full object-cover md:w-full md:h-full md:object-cover"
+/>
+
+</div>
+
+
+
       </div>
     </section>
   );

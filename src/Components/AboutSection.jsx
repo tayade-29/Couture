@@ -23,10 +23,10 @@ export default function AboutSection() {
 
           {/* Foreground content */}
           <div className="relative z-10 w-full flex flex-col justify-between gap-8 sm:gap-12 md:gap-16 px-2 sm:px-4 md:px-8">
-            <div className="flex justify-center sm:justify-end sm:pr-8 md:pr-12">
+            <div className="hidden sm:flex justify-center sm:justify-end sm:pr-8 md:pr-12">
               <p
-                className="text-lg sm:text-xl md:text-2xl lg:text-3xl 
-                           max-w-xs sm:max-w-sm md:max-w-md 
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl
+                           max-w-xs sm:max-w-sm md:max-w-md
                            text-center sm:text-right leading-relaxed"
                 style={{ color: '#4B2142', fontFamily: 'Katibeh' }}
               >
@@ -34,10 +34,10 @@ export default function AboutSection() {
               </p>
             </div>
 
-            <div className="flex justify-center sm:justify-start sm:pl-8 md:pl-12 mb-[-60px]">
+            <div className="hidden sm:flex justify-center sm:justify-start sm:pl-8 md:pl-12 mb-[-60px]">
               <p
-                className="text-lg sm:text-xl md:text-2xl lg:text-3xl 
-                           max-w-xs sm:max-w-sm md:max-w-md 
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl
+                           max-w-xs sm:max-w-sm md:max-w-md
                            text-center sm:text-left leading-relaxed"
                 style={{ color: '#4B2142', fontFamily: 'Katibeh' }}
               >
