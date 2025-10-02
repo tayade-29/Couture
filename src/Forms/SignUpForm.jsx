@@ -21,7 +21,9 @@ export default function SignupForm() {
         try {
             await createUser({ name, phoneNo, email, zipcode, password }).unwrap();
             console.log("User registered successfully");
-            navigate("/");
+             alert("SignUp successful!");
+            navigate("/home");
+           
         } catch (error) {
             console.error("Failed to register user:", error);
         }

@@ -31,7 +31,7 @@ export default function ProductForm() {
     <div className="flex items-center justify-center min-h-screen px-4 py-12" style={{ backgroundColor: '#F6F1F8' }}>
       <div className="bg-white p-8 sm:p-10 md:p-12 rounded-2xl shadow-lg w-full max-w-3xl">
         <h2 className="text-3xl font-bold text-center mb-8" style={{ color: '#4B2142' }}>
-          Add New Product
+          Add New Product (Only admin can add products)
         </h2>
 
         <form onSubmit={handleSubmit}>
