@@ -23,7 +23,7 @@ export default function LoginForm() {
             // Store token + user in Redux + localStorage
             dispatch(setCredentials({ token: result.token, user: result.user }));
 
-            alert("Login successful!");
+           
             navigate("/home");
         } catch (err) {
             console.error("Login failed:", err);
